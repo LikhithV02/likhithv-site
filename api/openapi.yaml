@@ -1,0 +1,64 @@
+openapi: 3.0.3
+info:
+  title: Likhith V newsletter signup
+  version: 1.0.0
+  description: Same-origin signup endpoint. Stores consenting email addresses in a Resend Segment.
+servers:
+  - url: https://likhithv.com
+paths:
+  /api/subscribe:
+    post:
+      summary: Subscribe to the newsletter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              additionalProperties: false
+              properties:
+                email:
+                  type: string
+                  format: email
+                  maxLength: 254
+                website:
+                  type: string
+                  description: Hidden spam trap; must be empty for a real signup.
+      responses:
+        '200':
+          description: Request processed without exposing contact or unsubscribe status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '400':
+          description: Invalid email or malformed JSON.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Failure'
+        '403':
+          description: Cross-origin request.
+        '413':
+          description: Request too large.
+        '415':
+          description: JSON content type required.
+        '502':
+          description: Resend rejected or failed the request.
+        '503':
+          description: Newsletter service is not configured or temporarily unavailable.
+components:
+  schemas:
+    Success:
+      type: object
+      required: [ok, message]
+      properties:
+        ok: { type: boolean, enum: [true] }
+        message: { type: string }
+    Failure:
+      type: object
+      required: [ok, message]
+      properties:
+        ok: { type: boolean, enum: [false] }
+        message: { type: string }

@@ -1,0 +1,12 @@
+---
+import Base from '../../layouts/Base.astro';
+const posts = Object.values(import.meta.glob('./*.md', { eager: true }))
+  .filter((post: any) => !post.frontmatter.draft)
+  .sort((a: any, b: any) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime());
+---
+<Base title="Writing — Likhith V" description="Notes on AI engineering, retrieval, document intelligence, and building useful products.">
+  <section class="page-hero page-width"><p class="section-index">The writing room</p><h1>Notes from the work.</h1><p>Decisions and lessons from building document AI, retrieval systems, and agents that have to keep working.</p></section>
+  <section class="writing-list page-width" aria-label="Articles">
+    {posts.length ? posts.map((post: any) => <a class="writing-row" href={post.url}><span class="writing-date">{new Date(post.frontmatter.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span><span><strong>{post.frontmatter.title}</strong><small>{post.frontmatter.description}</small></span><span class="writing-arrow" aria-hidden="true">↗</span></a>) : <div class="writing-empty"><div class="empty-icon" aria-hidden="true">✳</div><h2>Writing starts here.</h2><p>This room is ready for notes on the systems behind the work. The first article is on its way.</p><a href="/#projects">Explore the projects ↗</a></div>}
+  </section>
+</Base>

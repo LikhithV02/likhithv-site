@@ -1,0 +1,46 @@
+<div class="demo-shell anvit-demo" id="anvit-demo">
+  <div class="demo-head"><span class="demo-icon" aria-hidden="true">▣</span><div><strong>An answer should show where it came from.</strong><small>Prepared walkthrough · fictional sample document · no live model call</small></div></div>
+  <div class="anvit-board">
+    <div class="sample-document">
+      <div class="document-bar"><span class="document-chip">SAMPLE DOCUMENT</span><span>equipment-policy.txt</span></div>
+      <h3>Equipment policy</h3>
+      <p data-passage="return" class="is-highlighted">Employees should return loaned equipment within <mark>five business days</mark> of the end of a project.</p>
+      <p data-passage="damage">If a device is damaged, report it to the operations team <mark>before returning it</mark>. The team records the condition and arranges the next step.</p>
+    </div>
+    <div class="sample-answer">
+      <p class="mini-label">Ask the document</p>
+      <div class="question-options"><button type="button" class="is-selected" data-question="return" aria-pressed="true">When is equipment due?</button><button type="button" data-question="damage" aria-pressed="false">What if a device is damaged?</button></div>
+      <div class="answer-output" role="status" aria-live="polite"><span class="answer-sigil" aria-hidden="true">✳</span><p id="anvit-answer">Loaned equipment is due within five business days after the project ends. <a href="#anvit-source" aria-label="View highlighted source passage">Source 1</a></p></div>
+      <p class="source-note" id="anvit-source">Highlighted text shows the source passage supporting this prepared answer.</p>
+      <a class="demo-more" href="/projects/anvit/">Explore Anvit <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</div>
+<script>
+  const demo = document.querySelector<HTMLElement>('#anvit-demo');
+  if (demo) {
+    const answers: Record<string, string> = {
+      return: 'Loaned equipment is due within five business days after the project ends.',
+      damage: 'Report damage to the operations team before returning the device.'
+    };
+    demo.querySelectorAll<HTMLButtonElement>('[data-question]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const key = button.dataset.question!;
+        demo.querySelectorAll<HTMLButtonElement>('[data-question]').forEach((item) => {
+          const selected = item === button;
+          item.classList.toggle('is-selected', selected);
+          item.setAttribute('aria-pressed', String(selected));
+        });
+        demo.querySelectorAll<HTMLElement>('[data-passage]').forEach((passage) => passage.classList.toggle('is-highlighted', passage.dataset.passage === key));
+        const output = demo.querySelector<HTMLElement>('#anvit-answer');
+        if (output) {
+          output.textContent = answers[key] + ' ';
+          const source = document.createElement('a');
+          source.href = '#anvit-source';
+          source.textContent = key === 'return' ? 'Source 1' : 'Source 2';
+          output.append(source);
+        }
+      });
+    });
+  }
+</script>

@@ -1,0 +1,122 @@
+---
+import Base from '../layouts/Base.astro';
+import Newsletter from '../components/Newsletter.astro';
+import DeltaVecDemo from '../components/DeltaVecDemo.astro';
+import AnvitDemo from '../components/AnvitDemo.astro';
+import { site, bookingUrl, bookingLabel } from '../config';
+import { projects, experience, hermesRoles, studioStages } from '../data/content';
+const stations = [
+  { id: 'projects', number: '01', name: 'Projects', detail: 'Things I built' },
+  { id: 'hermes', number: '02', name: 'Hermes', detail: 'Agents in motion' },
+  { id: 'experience', number: '03', name: 'Experience', detail: 'Work in the field' },
+  { id: 'studio', number: '04', name: 'Studio', detail: 'Ideas into films' }
+];
+---
+<Base>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-image" aria-hidden="true">
+      <picture><source media="(max-width: 720px)" srcset="/night-shift-room-mobile.avif" type="image/avif" /><source media="(max-width: 720px)" srcset="/night-shift-room-mobile.webp" type="image/webp" /><source srcset="/night-shift-room.avif" type="image/avif" /><source srcset="/night-shift-room.webp" type="image/webp" /><img src="/night-shift-room.jpg" alt="" width="1920" height="1072" fetchpriority="high" /></picture>
+    </div>
+    <div class="hero-shade" aria-hidden="true"></div>
+    <div class="page-width hero-content">
+      <div class="hero-copy">
+        <p class="hero-id"><span class="hero-id-line"></span> Night Shift / Likhith V</p>
+        <p class="hero-role">AI engineer · Bengaluru</p>
+        <h1 id="hero-title">I build AI systems you can <em>inspect.</em></h1>
+        <p class="hero-summary">Documents with cited answers. Data pipelines that stay in sync. Agents with boundaries you can explain. Step inside the work.</p>
+        <div class="hero-actions"><a class="button button-amber" href="#projects">Explore the work <span aria-hidden="true">↗</span></a><a class="hero-secondary" href={site.upwork} target="_blank" rel="noopener noreferrer">Hire me on Upwork <span aria-hidden="true">↗</span></a></div>
+      </div>
+      <div class="hero-coordinate" aria-hidden="true"><span class="coordinate-line"></span><span>01 / Operating room</span></div>
+    </div>
+    <div class="station-wrap page-width" aria-label="Explore sections of the site"><p class="station-instruction">Choose a station</p><div class="station-grid">{stations.map((station) => <a class="station" href={`#${station.id}`}><span class="station-number">{station.number}</span><span class="station-title">{station.name}</span><span class="station-detail">{station.detail}</span><span class="station-arrow" aria-hidden="true">↗</span></a>)}</div></div>
+  </section>
+
+  <section class="intro-band"><div class="page-width intro-band-inner"><span class="intro-emblem" aria-hidden="true">✳</span><p>The best systems invite a closer look. Pick something below and see the decisions behind it.</p><span class="intro-band-mark" aria-hidden="true">LV / 2026</span></div></section>
+
+  <section class="section projects-section" id="projects" aria-labelledby="projects-title"><div class="page-width">
+    <div class="section-heading"><div><p class="section-index">Station 01 / Projects</p><h2 id="projects-title">Built to work beyond the demo.</h2></div><p>From local document AI to reliable vector infrastructure. Select a project to see its internals.</p></div>
+    <div class="project-feature project-anvit"><div class="project-feature-copy"><span class="project-counter">A / Document intelligence</span><h3>Anvit</h3><p>A private document assistant that runs inference on-device and keeps answers attached to source passages.</p><div class="tag-row"><span>Gemma 4</span><span>LiteRT-LM</span><span>Agentic RAG</span></div><a class="inline-cta" href="/projects/anvit/">Open the case study <span aria-hidden="true">↗</span></a></div><div class="project-feature-art anvit-art"><div class="anvit-orbit" aria-hidden="true"></div><div class="anvit-screen"><img src="/anvit-screen.png" alt="Anvit app showing a document chat" width="1080" height="2400" loading="lazy" /></div><span class="art-label">Anvit / local intelligence</span></div></div>
+    <AnvitDemo />
+    <div class="project-feature project-deltavec"><div class="project-feature-copy"><span class="project-counter">B / Data infrastructure</span><h3>DeltaVec</h3><p>Changed rows become precise vector updates. Unchanged content stays untouched, and deleted content leaves no orphan chunks.</p><div class="tag-row"><span>PostgreSQL</span><span>Qdrant</span><span>Dagster</span></div><a class="inline-cta" href="/projects/deltavec/">Open the case study <span aria-hidden="true">↗</span></a></div><div class="project-feature-art deltavec-art"><div class="vector-visual" aria-hidden="true"><div class="vector-column"><i></i><i></i><i></i></div><div class="vector-beam"><span></span><span></span><span></span></div><div class="vector-column target"><i></i><i></i><i></i></div></div><span class="art-label">DeltaVec / only what changed</span></div></div>
+    <DeltaVecDemo />
+    <div class="supporting-work"><p class="section-index">Also built</p><div class="supporting-grid">{projects.slice(2).map((project) => <a href={`/projects/${project.slug}/`} class="supporting-card"><span>{project.category}</span><h3>{project.name}</h3><p>{project.summary}</p><b aria-hidden="true">↗</b></a>)}</div></div>
+  </div></section>
+
+  <section class="section hermes-section" id="hermes" aria-labelledby="hermes-title"><div class="page-width">
+    <div class="section-heading"><div><p class="section-index">Station 02 / Hermes</p><h2 id="hermes-title">One server. Distinct agents. Clear boundaries.</h2></div><p>I deploy and operate separate Hermes agent workflows on my VPS, each with a specific purpose and access boundary.</p></div>
+    <div class="hermes-signature"><img src="/brands/hermes-wing.svg" alt="Hermes Agent mark" width="61" height="61" loading="lazy" /><span>Hermes Agent <small>Deployment & orchestration by Likhith V</small></span><a href="https://hermes-agent.nousresearch.com/" target="_blank" rel="noopener noreferrer">About Hermes ↗</a></div>
+    <div class="hermes-explorer"><div class="hermes-map" id="hermes-map" data-active="pr" aria-label="Illustrative Hermes architecture"><div class="map-step map-input"><span>Entry</span><strong>Discord</strong><small>Dedicated channels</small></div><div class="map-connector" aria-hidden="true"><i></i><i></i><i></i></div><div class="map-step map-agent"><span>Route</span><strong id="map-agent-name">Research digest</strong><small>Separate gateway</small></div><div class="map-connector" aria-hidden="true"><i></i><i></i><i></i></div><div class="map-step map-output"><span>Result</span><strong id="map-result-name">Digest for review</strong><small>Purpose-limited tools</small></div><div class="map-groundline" aria-hidden="true"></div><p class="map-caption">Architecture walkthrough · sample paths based on my VPS documentation · no live infrastructure connection</p></div><div class="hermes-roles"><p class="mini-label">Select a workflow</p>{hermesRoles.map((role, index) => <details class="hermes-role" data-role={role.id} data-result={role.path.at(-1)} open={index === 0}><summary><span>{role.entry}</span><strong>{role.name}</strong><i aria-hidden="true">+</i></summary><p>{role.mission}</p><ol>{role.path.map((step) => <li>{step}</li>)}</ol><small>{role.note}</small></details>)}</div></div>
+    <div class="hermes-notes"><div><span class="note-icon" aria-hidden="true">⌁</span><h3>Model routing</h3><p>OmniRoute gives the agents one model endpoint, so the provider can change without rewriting every consumer.</p></div><div><span class="note-icon" aria-hidden="true">⛨</span><h3>Isolation</h3><p>Trading research runs under a separate user and credentials. The shared media agent has a constrained tool set.</p></div><div><span class="note-icon" aria-hidden="true">◈</span><h3>Approval gates</h3><p>Content ideas require approval before production, and upload is private until I choose to publish.</p></div></div>
+    <div class="guided-runs"><p class="section-index">Follow a sample run</p><details><summary>Research digest <span aria-hidden="true">↗</span></summary><p>A request enters the dedicated PR channel, passes to its gateway, collects public-source material, removes repeats, ranks it, and returns a digest for review.</p></details><details><summary>Content production <span aria-hidden="true">↗</span></summary><p>A pitch is approved, then handed to the Mac studio. Script, narration, visual claims, and the render pass separate checks before private upload.</p></details></div>
+  </div></section>
+
+  <section class="section experience-section" id="experience" aria-labelledby="experience-title"><div class="page-width"><div class="section-heading"><div><p class="section-index">Station 03 / Experience</p><h2 id="experience-title">Work in the field.</h2></div><p>Production retrieval and agent systems, from early proof to deployed workflows.</p></div><div class="experience-list">{experience.map((job) => <article class="experience-card"><div class="experience-brand"><a href={job.url} target="_blank" rel="noopener noreferrer"><img src={job.logo} alt={`${job.company} logo`} loading="lazy" /></a><span>{job.period}</span></div><div class="experience-body"><p class="experience-role">{job.role} / {job.company}</p><h3>{job.summary}</h3><ul>{job.work.map((item) => <li>{item}</li>)}</ul></div></article>)}</div><p class="experience-source">Experience and outcomes are summarized from my résumé. Company logos are sourced from their official websites.</p></div></section>
+
+  <section class="section studio-section" id="studio" aria-labelledby="studio-title"><div class="page-width"><div class="section-heading"><div><p class="section-index">Station 04 / Studio</p><h2 id="studio-title">The idea is only the beginning.</h2></div><p>I make technical videos for YouTube and Instagram using researched scripts, AI narration, animated diagrams, and strict factual checks.</p></div><div class="studio-layout"><div class="studio-rail" aria-label="Video production stages">{studioStages.map((stage, index) => <button type="button" class:list={['stage-button', { 'is-active': index === 0 }]} data-stage={stage.id} data-description={stage.description} data-artifact={stage.artifact} aria-pressed={index === 0}><span class="stage-number">{String(index + 1).padStart(2, '0')}</span><span><strong>{stage.name}</strong><small>{stage.description}</small></span><span class="stage-tick" aria-hidden="true">↗</span></button>)}</div><div class="studio-panel"><div class="studio-monitor"><div class="monitor-top"><span>Inside the studio</span><span class="monitor-lights" aria-hidden="true"><i></i><i></i><i></i></span></div><div class="monitor-content"><span class="monitor-graphic" aria-hidden="true"><i></i><i></i><i></i></span><p class="mini-label">Selected artifact</p><h3 id="studio-artifact">Pitch + sources</h3><p id="studio-description">A VPS agent gathers ideas and source material. Claims must trace back to primary evidence.</p></div><div class="monitor-bottom"><span>Research → human decision → production → private delivery</span><span>LV / STUDIO</span></div></div><p class="studio-disclaimer">This is a walkthrough of the documented workflow, not a live feed of current production.</p></div></div><div class="studio-video">
+      <div class="studio-video-copy">
+        <p class="section-index">Published Short / Likhith V</p>
+        <h3 aria-label="GPT-6.1 Sol vs Claude Sonnet 5.5: Same Price, Very Different Bill">Same price.<br /><em>Very different bill.</em></h3>
+        <p>GPT-6.1 Sol vs Claude Sonnet 5.5. A short comparison from my YouTube channel.</p>
+        <a href="https://www.youtube.com/shorts/uhQiQFKe4eo" target="_blank" rel="noopener noreferrer">Open Short on YouTube ↗</a>
+      </div>
+      <div class="studio-video-player" id="studio-video-player">
+        <button type="button" id="play-studio-video" aria-label="Play GPT-6.1 Sol vs Claude Sonnet 5.5 Short">
+          <span class="video-poster-art" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="video-poster-models" aria-hidden="true"><span>SOL</span><span>SONNET</span></span>
+          <span class="play-glyph" aria-hidden="true">▶</span>
+          <span class="video-poster-label">Play the published Short</span>
+        </button>
+      </div>
+    </div><div class="studio-channels"><a href={site.youtube} target="_blank" rel="noopener noreferrer"><span class="channel-symbol">▶</span><span><strong>Watch on YouTube</strong><small>Technical explainers and system design</small></span><span aria-hidden="true">↗</span></a><a href={site.instagram} target="_blank" rel="noopener noreferrer"><span class="channel-symbol instagram-symbol">◎</span><span><strong>Follow on Instagram</strong><small>Short visual explanations</small></span><span aria-hidden="true">↗</span></a></div></div></section>
+
+  <section class="section writing-section" aria-labelledby="writing-title"><div class="page-width writing-inner"><div><p class="section-index">Writing</p><h2 id="writing-title">Notes from the work.</h2><p>Decisions, mistakes, and lessons from building systems that have to keep working after the demo.</p><a class="button button-outline" href="/writing/">Open the writing room <span aria-hidden="true">↗</span></a></div><div class="writing-art" aria-hidden="true"><span class="paper-line"></span><span class="paper-line short"></span><span class="paper-line"></span><span class="paper-line mid"></span><span class="writing-stamp">LV</span></div></div></section>
+
+  <Newsletter />
+
+  <section class="contact-section" id="contact" aria-labelledby="contact-title"><div class="page-width contact-inner"><div><p class="section-index">Next conversation</p><h2 id="contact-title">Bring me the difficult part.</h2><p>Document intelligence, retrieval, agents, or a system that needs to be made dependable. Tell me what you're trying to build.</p></div><div class="contact-actions"><a class="button button-amber" href={site.upwork} target="_blank" rel="noopener noreferrer">Hire me on Upwork <span aria-hidden="true">↗</span></a><a href={bookingUrl} target={site.calendly ? '_blank' : undefined} rel={site.calendly ? 'noopener noreferrer' : undefined}>{bookingLabel} <span aria-hidden="true">↗</span></a><a href={`mailto:${site.email}`}>Email me directly <span aria-hidden="true">↗</span></a></div></div></section>
+</Base>
+<script>
+  const hero = document.querySelector<HTMLElement>('.hero');
+  const art = document.querySelector<HTMLElement>('.hero-image');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (hero && art && !reduced.matches && window.matchMedia('(pointer: fine)').matches) {
+    hero.addEventListener('pointermove', (event) => {
+      const box = hero.getBoundingClientRect();
+      const x = ((event.clientX - box.left) / box.width - .5) * 12;
+      const y = ((event.clientY - box.top) / box.height - .5) * 9;
+      art.style.transform = `translate3d(${x}px,${y}px,0) scale(1.025)`;
+    });
+    hero.addEventListener('pointerleave', () => { art.style.transform = ''; });
+  }
+  const map = document.querySelector<HTMLElement>('#hermes-map');
+  const roles = document.querySelectorAll<HTMLDetailsElement>('.hermes-role');
+  roles.forEach((role) => role.addEventListener('toggle', () => {
+    if (!role.open) return;
+    roles.forEach((other) => { if (other !== role) other.open = false; });
+    if (map) map.dataset.active = role.dataset.role;
+    const name = role.querySelector('strong')?.textContent;
+    const output = document.querySelector('#map-agent-name');
+    if (name && output) output.textContent = name;
+    const result = document.querySelector('#map-result-name');
+    if (result) result.textContent = role.dataset.result || '';
+  }));
+  const stageButtons = document.querySelectorAll<HTMLButtonElement>('.stage-button');
+  stageButtons.forEach((button) => button.addEventListener('click', () => {
+    stageButtons.forEach((item) => { const selected = item === button; item.classList.toggle('is-active', selected); item.setAttribute('aria-pressed', String(selected)); });
+    const artifact = document.querySelector<HTMLElement>('#studio-artifact');
+    const description = document.querySelector<HTMLElement>('#studio-description');
+    if (artifact) artifact.textContent = button.dataset.artifact || '';
+    if (description) description.textContent = button.dataset.description || '';
+    if (!reduced.matches) document.querySelector('.monitor-content')?.animate([{ opacity: .55, transform: 'translateY(8px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 260, easing: 'ease-out' });
+  }));
+  document.querySelector<HTMLButtonElement>('#play-studio-video')?.addEventListener('click', () => {
+    const player = document.querySelector<HTMLElement>('#studio-video-player');
+    if (!player) return;
+    const frame = document.createElement('iframe');
+    frame.src = 'https://www.youtube-nocookie.com/embed/uhQiQFKe4eo?autoplay=1&playsinline=1';
+    frame.title = 'GPT-6.1 Sol vs Claude Sonnet 5.5: Same Price, Very Different Bill — YouTube Short';
+    frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    frame.allowFullscreen = true;
+    player.replaceChildren(frame);
+  });
+</script>

@@ -1,0 +1,49 @@
+---
+---
+<section class="newsletter-section" id="newsletter" aria-labelledby="newsletter-title">
+  <div class="page-width newsletter-inner">
+    <div class="newsletter-intro">
+      <span class="newsletter-symbol" aria-hidden="true">✳</span>
+      <p class="section-index">Newsletter</p>
+      <h2 id="newsletter-title">A note from the workbench.</h2>
+      <p>Future posts, project updates, and useful things I learn while building AI systems.</p>
+    </div>
+    <div class="newsletter-signup">
+      <form id="newsletter-form" action="/api/subscribe" method="post">
+        <label for="newsletter-email">Your email address</label>
+        <div class="signup-field"><input id="newsletter-email" name="email" type="email" placeholder="you@example.com" autocomplete="email" maxlength="254" required /><button type="submit">Subscribe <span aria-hidden="true">↗</span></button></div>
+        <div class="signup-trap" aria-hidden="true"><label for="newsletter-website">Leave this field blank</label><input id="newsletter-website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
+        <p class="signup-status" id="newsletter-status" role="status" aria-live="polite">I’ll use Resend to manage this list. Unsubscribe from any issue.</p>
+      </form>
+    </div>
+  </div>
+</section>
+<script>
+  const form = document.querySelector<HTMLFormElement>('#newsletter-form');
+  const status = document.querySelector<HTMLElement>('#newsletter-status');
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!form.reportValidity() || !status) return;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const emailInput = form.querySelector<HTMLInputElement>('input[name="email"]');
+    const trap = form.querySelector<HTMLInputElement>('input[name="website"]');
+    if (!button || !emailInput || !trap) return;
+    button.disabled = true;
+    status.textContent = 'Submitting…';
+    try {
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: emailInput.value, website: trap.value }),
+      });
+      const result = await response.json();
+      if (!response.ok || result.ok !== true) throw new Error(result.message || 'Newsletter signup is temporarily unavailable.');
+      status.textContent = result.message;
+      form.reset();
+    } catch {
+      status.textContent = 'Newsletter signup is unavailable right now. Please try again later.';
+    } finally {
+      button.disabled = false;
+    }
+  });
+</script>

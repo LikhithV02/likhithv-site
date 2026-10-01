@@ -1,0 +1,82 @@
+<div class="demo-shell delta-demo" id="delta-demo">
+  <div class="demo-head"><span class="demo-icon" aria-hidden="true">◇</span><div><strong>Change one record. Watch the index plan change.</strong><small>Illustrative browser demonstration · sample records</small></div></div>
+  <div class="delta-board">
+    <div class="delta-records">
+      <p class="mini-label">PostgreSQL source</p>
+      <div class="delta-row"><span>01</span><input aria-label="Sample record 1" data-record="01" value="Claims guide: verify the source" /><output data-status="01">In sync</output></div>
+      <div class="delta-row"><span>02</span><input aria-label="Sample record 2" data-record="02" value="Policy: retain document citations" /><output data-status="02">In sync</output></div>
+      <div class="delta-row"><span>03</span><input aria-label="Sample record 3" data-record="03" value="Review: flag uncertain answers" /><output data-status="03">In sync</output></div>
+      <div class="delta-extra" id="delta-extra"></div>
+      <div class="demo-controls"><button type="button" id="delta-add">Add sample row</button><button type="button" id="delta-delete">Delete row 03</button><button type="button" id="delta-reset">Reset</button></div>
+    </div>
+    <div class="delta-flow-arrow" aria-hidden="true">→</div>
+    <div class="delta-index">
+      <p class="mini-label">Qdrant update plan</p>
+      <div class="delta-result" id="delta-result" role="status" aria-live="polite"><span class="result-dot"></span><span>No changes. The index is in sync.</span></div>
+      <p>DeltaVec detects changed content, applies deterministic upserts, propagates deletions, and checks for drift.</p>
+      <a href="/projects/deltavec/">Explore the real pipeline <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</div>
+<script>
+  const root = document.querySelector<HTMLElement>('#delta-demo');
+  if (root) {
+    const originals = new Map([['01', 'Claims guide: verify the source'], ['02', 'Policy: retain document citations'], ['03', 'Review: flag uncertain answers']]);
+    const result = root.querySelector<HTMLElement>('#delta-result');
+    const extra = root.querySelector<HTMLElement>('#delta-extra');
+    const add = root.querySelector<HTMLButtonElement>('#delta-add');
+    const remove = root.querySelector<HTMLButtonElement>('#delta-delete');
+    const reset = root.querySelector<HTMLButtonElement>('#delta-reset');
+    let added = false;
+    let deleted = false;
+    const refresh = () => {
+      if (!result) return;
+      const changed: string[] = [];
+      root.querySelectorAll<HTMLInputElement>('input[data-record]').forEach((input) => {
+        const id = input.dataset.record!;
+        if (id === '04') return;
+        const state = root.querySelector<HTMLOutputElement>(`output[data-status="${id}"]`);
+        const dirty = id !== '03' || !deleted ? originals.get(id) !== input.value : false;
+        if (state) state.textContent = dirty ? 'Update' : 'In sync';
+        if (dirty) changed.push(id);
+      });
+      if (added) changed.push('04');
+      const updates = changed.length ? `Upsert ${changed.map((id) => 'row ' + id).join(', ')}.` : '';
+      const deletion = deleted ? ' Remove orphan chunks for row 03.' : '';
+      const message = updates || deletion ? `${updates}${deletion}` : 'No changes. The index is in sync.';
+      result.innerHTML = '<span class="result-dot"></span>';
+      const text = document.createElement('span');
+      text.textContent = message.trim();
+      result.append(text);
+      result.classList.toggle('has-change', Boolean(updates || deletion));
+    };
+    root.addEventListener('input', refresh);
+    add?.addEventListener('click', () => {
+      if (added || !extra) return;
+      added = true;
+      extra.innerHTML = '<div class="delta-row"><span>04</span><input aria-label="Sample record 4" data-record="04" value="New record: review before indexing" /><output data-status="04">New</output></div>';
+      add.disabled = true;
+      refresh();
+    });
+    remove?.addEventListener('click', () => {
+      deleted = true;
+      const row = root.querySelector<HTMLInputElement>('input[data-record="03"]')?.closest('.delta-row');
+      row?.classList.add('is-deleted');
+      remove.disabled = true;
+      refresh();
+    });
+    reset?.addEventListener('click', () => {
+      root.querySelectorAll<HTMLInputElement>('input[data-record]').forEach((input) => {
+        const original = originals.get(input.dataset.record!);
+        if (original) input.value = original;
+      });
+      added = false;
+      deleted = false;
+      if (extra) extra.innerHTML = '';
+      root.querySelector<HTMLInputElement>('input[data-record="03"]')?.closest('.delta-row')?.classList.remove('is-deleted');
+      if (add) add.disabled = false;
+      if (remove) remove.disabled = false;
+      refresh();
+    });
+  }
+</script>

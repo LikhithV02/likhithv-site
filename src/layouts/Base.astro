@@ -1,0 +1,47 @@
+---
+import '../styles/global.css';
+import { site } from '../config';
+const { title = 'Likhith V — AI Engineer', description = 'Likhith V builds document intelligence, retrieval systems, and agent workflows.' } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#101723" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Likhith V" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="header-inner page-width">
+        <a class="wordmark" href="/" aria-label="Likhith V, home"><span class="wordmark-glyph" aria-hidden="true">L<span>V</span></span><span class="wordmark-text">LIKHITH V<small>AI ENGINEER</small></span></a>
+        <nav aria-label="Main navigation"><a href="/#projects">Projects</a><a href="/#hermes">Hermes</a><a href="/#experience">Experience</a><a href="/#studio">Studio</a><a href="/writing/">Writing</a></nav>
+        <a class="header-hire" href={site.upwork} target="_blank" rel="noopener noreferrer">Hire me <span aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer">
+      <div class="page-width footer-grid">
+        <div><a class="footer-brand" href="/">Likhith V</a><p>Useful AI systems, built close to the source.</p></div>
+        <div class="footer-col"><strong>Explore</strong><a href="/#projects">Projects</a><a href="/#hermes">Hermes</a><a href="/#experience">Experience</a><a href="/#studio">Studio</a><a href="/writing/">Writing</a></div>
+        <div class="footer-col"><strong>Connect</strong><a href={site.upwork} target="_blank" rel="noopener noreferrer">Upwork</a><a href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a><a href={site.github} target="_blank" rel="noopener noreferrer">GitHub</a><a href={`mailto:${site.email}`}>Email</a></div>
+        <div class="footer-col"><strong>Follow</strong><a href={site.youtube} target="_blank" rel="noopener noreferrer">YouTube</a><a href={site.instagram} target="_blank" rel="noopener noreferrer">Instagram</a><a href={site.x} target="_blank" rel="noopener noreferrer">X</a></div>
+      </div>
+      <div class="page-width footer-bottom"><span>© {new Date().getFullYear()} Likhith V</span><span>Built for the night shift.</span></div>
+    </footer>
+  </body>
+</html>
