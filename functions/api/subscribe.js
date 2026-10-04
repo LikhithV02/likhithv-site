@@ -40,14 +40,16 @@ export async function onRequestPost({ request, env }) {
   if (!email || email.length > 254 || !EMAIL_PATTERN.test(email)) {
     return reply(400, false, 'Enter a valid email address.');
   }
-  if (!env.RESEND_API_KEY || !env.RESEND_NEWSLETTER_SEGMENT_ID) {
+  const apiKey = env.RESEND_API_KEY || env.RESEND_KEY || env.resend_api_key;
+  const segmentId = env.RESEND_NEWSLETTER_SEGMENT_ID || env.RESEND_SEGMENT_ID || env.NEWSLETTER_SEGMENT_ID || env.SEGMENT_ID || env.resend_newsletter_segment_id;
+  if (!apiKey || !segmentId) {
     return reply(503, false, 'Newsletter signup is temporarily unavailable. Please try later.');
   }
 
   const apiBase = 'https://api.resend.com/contacts';
-  const headers = { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' };
+  const headers = { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' };
   const contactUrl = `${apiBase}/${encodeURIComponent(email)}`;
-  const segmentUrl = `${contactUrl}/segments/${encodeURIComponent(env.RESEND_NEWSLETTER_SEGMENT_ID)}`;
+  const segmentUrl = `${contactUrl}/segments/${encodeURIComponent(segmentId)}`;
   const upstreamError = () => reply(502, false, 'Newsletter signup is temporarily unavailable. Please try later.');
   const success = () => reply(200, true, 'Your signup request was received.');
 
