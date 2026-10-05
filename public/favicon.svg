@@ -1,1 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#101723"></rect><path d="M13 13v38h23v-8H22V13z" fill="#ecf0f4"></path><path d="M32 13l9 38h9l9-38h-9l-5 25-5-25z" fill="#ffb65c"></path></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>Likhith V</title>
+  <!-- Schibsted Grotesk 800, outlined to match the site's heading typography. -->
+  <rect width="64" height="64" rx="14" fill="#0d0c0b"/>
+  <g transform="matrix(0.8431036754050849 0 0 -0.8431036754050849 5.371887761823212 46.227374522460806)">
+    <path d="M3.117 0.000 L3.117 33.750 L11.578 33.750 L11.578 7.195 L27.586 7.195 L27.586 0.000 Z" fill="#ece8e3"/>
+    <path d="M37.433 0.000 L26.065 33.750 L35.159 33.750 L43.339 5.203 L42.753 5.203 L50.956 33.750 L60.050 33.750 L48.729 0.000 Z" fill="#ff6a2b"/>
+  </g>
+</svg>
