@@ -63,9 +63,37 @@
   .msg.ok { color: var(--ok); }
   .trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
   footer { margin-top: 56px; color: var(--muted); font-size: 14px; }
+  /* email gate: the sheet stays blurred behind the card until the visitor signs up (remembered per browser) */
+  .locked main { filter: blur(7px); pointer-events: none; user-select: none; }
+  .locked { overflow: hidden; }
+  .gate { position: fixed; inset: 0; z-index: 10; display: none; align-items: center; justify-content: center; padding: 20px;
+    background: rgba(13,12,11,.55); }
+  .locked .gate { display: flex; }
+  .card { width: 100%; max-width: 440px; background: var(--panel); border: 1px solid var(--accent); border-radius: 14px;
+    padding: 28px 24px 22px; box-shadow: 0 24px 80px rgba(0,0,0,.5); }
+  .card h2 { margin: 0 0 8px; font-size: 24px; line-height: 1.2; }
+  .card p { margin: 0 0 18px; color: #c4beb6; font-size: 15px; }
+  .card form { gap: 10px; }
+  .card button { width: 100%; padding: 15px; font-size: 13px; }
+  .card .fine { margin: 12px 0 0; font-size: 12px; color: var(--muted); }
 </style>
 </head>
-<body>
+<body class="locked">
+<div class="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <div class="card">
+    <p class="eyebrow">Free cheat sheet</p>
+    <h2 id="gate-title">Undo in Git: reset vs revert</h2>
+    <p>Enter your email to open the cheat sheet. I'll also let you know when my next AI tools for developers are ready to try.</p>
+    <form id="sub" novalidate>
+      <input name="email" type="email" autocomplete="email" placeholder="you@company.com" aria-label="Email address" required maxlength="254">
+      <input name="name" type="text" autocomplete="given-name" placeholder="First name (optional)" aria-label="First name, optional" maxlength="80">
+      <div class="trap" aria-hidden="true"><input name="website" type="text" tabindex="-1" autocomplete="off"></div>
+      <button type="submit">Open the cheat sheet ↵</button>
+      <p class="msg" id="msg"></p>
+    </form>
+    <p class="fine">Only launch notes, no spam. Unsubscribe any time.</p>
+  </div>
+</div>
 <main>
   <p class="eyebrow">Git series · part 2 · cheat sheet</p>
   <h1>Undo in Git:<br>reset vs revert</h1>
@@ -136,19 +164,6 @@ git commit --amend</pre>
   </div>
   <p class="note">In one line: reset rewinds, revert cancels.</p>
 
-  <section class="sub" id="subscribe">
-    <h2>Want my next AI tools when they launch?</h2>
-    <p>I'm building AI products for developers. Leave your email and I'll write when the next one is ready to try. It's optional, and the cheat sheet is yours either way.</p>
-    <form id="sub" novalidate>
-      <div class="row">
-        <input name="name" type="text" autocomplete="given-name" placeholder="First name (optional)" aria-label="First name, optional" maxlength="80">
-        <input name="email" type="email" autocomplete="email" placeholder="you@company.com" aria-label="Email address" required maxlength="254">
-        <button type="submit">Notify me ↵</button>
-      </div>
-      <div class="trap" aria-hidden="true"><input name="website" type="text" tabindex="-1" autocomplete="off"></div>
-      <p class="msg" id="msg">Your email is only used for launch notes. Unsubscribe any time.</p>
-    </form>
-  </section>
 
   <footer>
     Made by <a href="/">Likhith V</a>. Part 1 covered merge vs rebase. Follow on Instagram for the next one.
@@ -156,24 +171,29 @@ git commit --amend</pre>
 </main>
 <script>
   (function () {
+    var KEY = 'lv-guides-unlocked';
+    function unlock() { document.body.classList.remove('locked'); try { localStorage.setItem(KEY, '1'); } catch (e) {} }
+    try { if (localStorage.getItem(KEY) === '1') { document.body.classList.remove('locked'); return; } } catch (e) {}
     var form = document.getElementById('sub'), msg = document.getElementById('msg'), btn = form.querySelector('button');
     var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     function say(text, cls) { msg.textContent = text; msg.className = 'msg' + (cls ? ' ' + cls : ''); }
+    form.email.focus();
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var email = form.email.value.trim();
-      if (!EMAIL_RE.test(email)) { say('Enter a valid email address.', 'err'); return; }
-      btn.disabled = true; say('Sending…');
+      if (!EMAIL_RE.test(email)) { say('Enter a valid email address.', 'err'); form.email.focus(); return; }
+      btn.disabled = true; say('Opening…');
       fetch('/api/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email, name: form.name.value.trim(), website: form.website.value, source: 'guide-undo' })
-      }).then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok && d.ok !== false, d: d }; }); })
+      }).then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return { status: r.status, ok: r.ok && d.ok !== false, d: d }; }); })
         .then(function (res) {
-          if (res.ok) { say("✓ You're on the list. Thanks!", 'ok'); form.reset(); }
-          else { say(res.d.message || 'Something went wrong. Please try again.', 'err'); btn.disabled = false; }
+          // a rejected address (4xx) gets fixed; if the mailing list itself is down (5xx), the visitor still gets the sheet
+          if (res.ok || res.status >= 500) unlock();
+          else { say(res.d.message || 'Enter a valid email address.', 'err'); btn.disabled = false; }
         })
-        .catch(function () { say('Network error. Please try again.', 'err'); btn.disabled = false; });
+        .catch(unlock);
     });
   })();
 </script>
