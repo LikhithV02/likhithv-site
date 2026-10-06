@@ -76,6 +76,9 @@
   .card form { gap: 10px; }
   .card button { width: 100%; padding: 15px; font-size: 13px; }
   .card .fine { margin: 12px 0 0; font-size: 12px; color: var(--muted); }
+  .card .skip { display: block; width: 100%; margin-top: 4px; background: transparent; color: var(--muted); border: 0; padding: 8px;
+    font-size: 12px; text-decoration: underline; text-underline-offset: 3px; }
+  .card .skip:hover { background: transparent; color: var(--text); }
 </style>
 </head>
 <body class="locked">
@@ -91,6 +94,7 @@
       <button type="submit">Open the cheat sheet ↵</button>
       <p class="msg" id="msg"></p>
     </form>
+    <button type="button" class="skip" id="skip">Skip, just show me the cheat sheet</button>
     <p class="fine">Only launch notes, no spam. Unsubscribe any time.</p>
   </div>
 </div>
@@ -172,11 +176,13 @@ git commit --amend</pre>
 <script>
   (function () {
     var KEY = 'lv-guides-unlocked';
-    function unlock() { document.body.classList.remove('locked'); try { localStorage.setItem(KEY, '1'); } catch (e) {} }
+    function show() { document.body.classList.remove('locked'); }
+    function unlock() { show(); try { localStorage.setItem(KEY, '1'); } catch (e) {} }   // subscribers are never asked again
     try { if (localStorage.getItem(KEY) === '1') { document.body.classList.remove('locked'); return; } } catch (e) {}
     var form = document.getElementById('sub'), msg = document.getElementById('msg'), btn = form.querySelector('button');
     var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     function say(text, cls) { msg.textContent = text; msg.className = 'msg' + (cls ? ' ' + cls : ''); }
+    document.getElementById('skip').addEventListener('click', show);   // skipping opens it for this visit only
     form.email.focus();
     form.addEventListener('submit', function (e) {
       e.preventDefault();
