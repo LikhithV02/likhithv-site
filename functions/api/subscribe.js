@@ -40,6 +40,8 @@ export async function onRequestPost({ request, env }) {
   if (!email || email.length > 254 || !EMAIL_PATTERN.test(email)) {
     return reply(400, false, 'Enter a valid email address.');
   }
+  // Optional; only used when the contact is new, so a resubmission never overwrites a stored name.
+  const firstName = typeof body.name === 'string' ? body.name.trim().slice(0, 80) : '';
   const apiKey = env.RESEND_API_KEY || env.RESEND_KEY || env.resend_api_key;
   const segmentId = env.RESEND_NEWSLETTER_SEGMENT_ID || env.RESEND_SEGMENT_ID || env.NEWSLETTER_SEGMENT_ID || env.SEGMENT_ID || env.resend_newsletter_segment_id;
   if (!apiKey || !segmentId) {
@@ -66,7 +68,7 @@ export async function onRequestPost({ request, env }) {
 
     const created = await fetch(apiBase, {
       method: 'POST', headers,
-      body: JSON.stringify({ email, unsubscribed: false, segments: [{ id: env.RESEND_NEWSLETTER_SEGMENT_ID }] }),
+      body: JSON.stringify({ email, ...(firstName && { first_name: firstName }), unsubscribed: false, segments: [{ id: segmentId }] }),
       signal: AbortSignal.timeout(8000),
     });
     if (created.ok) return success();
