@@ -292,54 +292,28 @@
       </div>
       <div>
         <div style="font-family: 'Martian Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #ff6a2b; margin-bottom: 14px">result</div>
-        <p style="text-align: justify; hyphens: auto; -webkit-hyphens: auto; margin: 0; font-size: 16.5px; line-height: 1.65; color: #c4beb6">Every policy branch is covered by unit, tool and live tests. A manipulative message can change the wording of a reply without changing what gets paid out, and that held under a simulated 2,500-user spike.</p>
+        <p style="text-align: justify; hyphens: auto; -webkit-hyphens: auto; margin: 0; font-size: 16.5px; line-height: 1.65; color: #c4beb6">A manipulative message can change the wording of a reply without changing what gets paid out. That held across golden-set evals on every PR, an AI red team and a simulated 2,500-user spike.</p>
       </div>
     </div>
 
     <div data-reveal="1" style="margin-top: 96px; border: 1px solid #2a2724; background: #121110">
       <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; padding: 14px 18px; border-bottom: 1px solid #2a2724; font-family: 'Martian Mono', monospace; font-size: 11px; color: #9a948c">
-        <span style="display: flex; gap: 10px; align-items: center"><span style="color: #ece8e3; text-transform: uppercase; letter-spacing: 0.12em">user simulation</span><span>locust · 10,000 synthetic customers · fake LLM at 1.5 s median</span></span>
-        <span>evaluated for speed and correctness</span>
+        <span style="color: #ece8e3; text-transform: uppercase; letter-spacing: 0.12em">how it’s tested</span>
+        <a href="https://likhithv02.github.io/Customer-Support-Agent/#evals" target="_blank" rel="noopener">full results in the case study ↗</a>
       </div>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 1px; background: #2a2724; border-bottom: 1px solid #2a2724">
-        <div style="background: #0d0c0b; padding: 26px 22px"><div style="font-size: clamp(40px, 4.6vw, 64px); font-weight: 800; letter-spacing: -0.05em; line-height: 0.9; color: #ff6a2b">131,272</div><div style="margin-top: 12px; font-size: 14.5px; line-height: 1.45; color: #c4beb6">requests in a 2,500-user spike, 0 server errors</div></div>
-        <div style="background: #0d0c0b; padding: 26px 22px"><div style="font-size: clamp(40px, 4.6vw, 64px); font-weight: 800; letter-spacing: -0.05em; line-height: 0.9; color: #ff6a2b">120 ms</div><div style="margin-top: 12px; font-size: 14.5px; line-height: 1.45; color: #c4beb6">p95 time to first event, with back-pressure on</div></div>
-        <div style="background: #0d0c0b; padding: 26px 22px"><div style="font-size: clamp(40px, 4.6vw, 64px); font-weight: 800; letter-spacing: -0.05em; line-height: 0.9; color: #ff6a2b">0</div><div style="margin-top: 12px; font-size: 14.5px; line-height: 1.45; color: #c4beb6">forbidden refunds or double refunds across 10 database invariants</div></div>
-      </div>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 40px 56px; padding: 28px 18px">
-        <div>
-          <div style="font-family: 'Martian Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #9a948c; margin-bottom: 14px">who the simulated users are</div>
-          <div style="display: flex; gap: 2px; margin-bottom: 18px"><div style="flex: 0 0 85%; min-width: 0; background: #ece8e3; height: 10px" title="customers"></div><div style="flex: 0 0 10%; min-width: 0; background: #ff6a2b; height: 10px" title="race"></div><div style="flex: 0 0 3%; min-width: 0; background: #ffb08a; height: 10px" title="abusive"></div><div style="flex: 0 0 2%; min-width: 0; background: #7d776f; height: 10px" title="admin"></div></div>
-          <div style="display: grid; gap: 12px">
-            <div style="display: grid; grid-template-columns: 12px 44px minmax(0, 1fr); gap: 10px; align-items: baseline"><span style="width: 10px; height: 10px; background: #ece8e3; display: block"></span><span style="font-family: 'Martian Mono', monospace; font-size: 12px; color: #ece8e3">85%</span><span style="font-size: 14.5px; line-height: 1.5; color: #c4beb6">Customers holding 2–3 turn refund conversations across five policy branches</span></div>
-            <div style="display: grid; grid-template-columns: 12px 44px minmax(0, 1fr); gap: 10px; align-items: baseline"><span style="width: 10px; height: 10px; background: #ff6a2b; display: block"></span><span style="font-family: 'Martian Mono', monospace; font-size: 12px; color: #ece8e3">10%</span><span style="font-size: 14.5px; line-height: 1.5; color: #c4beb6">Race users firing concurrent turns and duplicate refund requests</span></div>
-            <div style="display: grid; grid-template-columns: 12px 44px minmax(0, 1fr); gap: 10px; align-items: baseline"><span style="width: 10px; height: 10px; background: #ffb08a; display: block"></span><span style="font-family: 'Martian Mono', monospace; font-size: 12px; color: #ece8e3">3%</span><span style="font-size: 14.5px; line-height: 1.5; color: #c4beb6">Abusive users: injections, stolen conversation ids, missing tokens, bursts</span></div>
-            <div style="display: grid; grid-template-columns: 12px 44px minmax(0, 1fr); gap: 10px; align-items: baseline"><span style="width: 10px; height: 10px; background: #7d776f; display: block"></span><span style="font-family: 'Martian Mono', monospace; font-size: 12px; color: #ece8e3">2%</span><span style="font-size: 14.5px; line-height: 1.5; color: #c4beb6">Admins holding live reasoning streams open</span></div>
-          </div>
-        </div>
-        <div>
-          <div style="font-family: 'Martian Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #9a948c; margin-bottom: 14px">what the first run broke, and the fix</div>
-          <div style="text-align: justify; hyphens: auto; -webkit-hyphens: auto; display: grid; gap: 12px; font-size: 15px; line-height: 1.6; color: #c4beb6">
-            <div style="display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 8px"><span style="font-family: 'Martian Mono', monospace; font-size: 11px; color: #ff6a2b; padding-top: 3px">01</span><span>Half of each worker’s CPU went to rebuilding tools and recompiling the graph every turn. Now built once per process.</span></div>
-            <div style="display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 8px"><span style="font-family: 'Martian Mono', monospace; font-size: 11px; color: #ff6a2b; padding-top: 3px">02</span><span>A starved event loop exhausted the DB pool into 500s. Fixed with the above plus leaner event writes.</span></div>
-            <div style="display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 8px"><span style="font-family: 'Martian Mono', monospace; font-size: 11px; color: #ff6a2b; padding-top: 3px">03</span><span>Exceptions after SSE headers tore streams. Streams now always end with a clean error event.</span></div>
-            <div style="display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 8px"><span style="font-family: 'Martian Mono', monospace; font-size: 11px; color: #ff6a2b; padding-top: 3px">04</span><span>Shed clients retried into a storm. Jittered Retry-After and a client that honours it cut shed traffic by about two thirds.</span></div>
-          </div>
-        </div>
-      </div>
-      <div style="border-top: 1px solid #2a2724; overflow-x: auto">
-        <div style="min-width: 760px">
-          <div class="load-run" style="display: grid; grid-template-columns: 70px minmax(0, 1.1fr) 90px minmax(0, 1.6fr); gap: 16px; padding: 16px 18px; border-bottom: 1px solid #1f1d1a; align-items: baseline"><span style="font-family: 'Martian Mono', monospace; font-size: 11px; color: #9a948c">run 1</span><span style="font-size: 15px; color: #ece8e3">1,000 users, baseline</span><span style="font-family: 'Martian Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #ffb08a">✕ failed</span><span style="font-size: 14.5px; line-height: 1.5; color: #c4beb6">230 failures, p95 first event 9.2 s. The policy gate still held: 722 approvals, 0 violations.</span></div>
-          <div class="load-run" style="display: grid; grid-template-columns: 70px minmax(0, 1.1fr) 90px minmax(0, 1.6fr); gap: 16px; padding: 16px 18px; border-bottom: 1px solid #1f1d1a; align-items: baseline"><span style="font-family: 'Martian Mono', monospace; font-size: 11px; color: #9a948c">run 2</span><span style="font-size: 15px; color: #ece8e3">1,000 users, after fixes</span><span style="font-family: 'Martian Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #ece8e3">✓ correct</span><span style="font-size: 14.5px; line-height: 1.5; color: #c4beb6">0 of 81,145 requests failed; throughput 35 → 53 turns/s.</span></div>
-          <div class="load-run" style="display: grid; grid-template-columns: 70px minmax(0, 1.1fr) 90px minmax(0, 1.6fr); gap: 16px; padding: 16px 18px; border-bottom: 1px solid #1f1d1a; align-items: baseline"><span style="font-family: 'Martian Mono', monospace; font-size: 11px; color: #9a948c">run 3</span><span style="font-size: 15px; color: #ece8e3">2,500-user spike, back-pressure</span><span style="font-family: 'Martian Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #ff6a2b">✓ passed</span><span style="font-size: 14.5px; line-height: 1.5; color: #c4beb6">Guardrail and race probes 100% correct; overflow shed as fast 503s, p50 11 ms.</span></div>
-        </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 1px; background: #2a2724">
+        <div style="background: #0d0c0b; padding: 26px 22px"><div style="font-size: clamp(40px, 4.6vw, 64px); font-weight: 800; letter-spacing: -0.05em; line-height: 0.9; color: #ff6a2b">100%</div><div style="margin-top: 12px; font-size: 14.5px; line-height: 1.45; color: #c4beb6">money-safe and policy-correct across 83 golden conversations, graded on every PR</div></div>
+        <div style="background: #0d0c0b; padding: 26px 22px"><div style="font-size: clamp(40px, 4.6vw, 64px); font-weight: 800; letter-spacing: -0.05em; line-height: 0.9; color: #ff6a2b">0.98+</div><div style="margin-top: 12px; font-size: 14.5px; line-height: 1.45; color: #c4beb6">tone rated by an LLM judge on Gemini 3.8 Flash and GPT-5.6</div></div>
+        <div style="background: #0d0c0b; padding: 26px 22px"><div style="font-size: clamp(40px, 4.6vw, 64px); font-weight: 800; letter-spacing: -0.05em; line-height: 0.9; color: #ff6a2b">0 / 120</div><div style="margin-top: 12px; font-size: 14.5px; line-height: 1.45; color: #c4beb6">AI-written red-team attacks that moved money or leaked data</div></div>
+        <div style="background: #0d0c0b; padding: 26px 22px"><div style="font-size: clamp(40px, 4.6vw, 64px); font-weight: 800; letter-spacing: -0.05em; line-height: 0.9; color: #ff6a2b">0</div><div style="margin-top: 12px; font-size: 14.5px; line-height: 1.45; color: #c4beb6">failed requests out of 131,272 in a 2,500-user load spike</div></div>
       </div>
     </div>
 
     <div data-reveal="1" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: 32px; font-family: 'Martian Mono', monospace; font-size: 12px">
       <a href="https://refund-agent.likhithv.com" target="_blank" rel="noopener" style="background: #ff6a2b; color: #0d0c0b; padding: 13px 18px; font-weight: 500; transition: transform 200ms, background 200ms" style-hover="background: #ff8a55; color: #0d0c0b; transform: translateY(-2px)">Try the live demo ↗</a>
+      <a href="https://likhithv02.github.io/Customer-Support-Agent/" target="_blank" rel="noopener" style="border: 1px solid #3a3631; color: #ece8e3; padding: 12px 18px; transition: border-color 200ms" style-hover="border-color: #ff6a2b; color: #ff6a2b">Case study ↗</a>
       <a href="https://github.com/LikhithV02/Customer-Support-Agent" target="_blank" rel="noopener" style="border: 1px solid #3a3631; color: #ece8e3; padding: 12px 18px; transition: border-color 200ms" style-hover="border-color: #ff6a2b; color: #ff6a2b">Source ↗</a>
-      <span style="color: #9a948c; font-size: 11px">FastAPI · LangGraph · React · Postgres · Redis · Kubernetes · Locust</span>
+      <span style="color: #9a948c; font-size: 11px">FastAPI · LangGraph · React · Postgres · Redis · Opik · promptfoo · Kubernetes · Locust</span>
     </div>
   </section>
 
