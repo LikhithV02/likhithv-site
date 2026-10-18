@@ -31,6 +31,20 @@ This site is structured for **Cloudflare Pages** with zero build step:
 
 For complete instructions on domain setup (`likhithv.com`) and newsletter integration (Resend), see [DEPLOY.md](file:///Users/likhith/Projects/Personal%20Website/DEPLOY.md).
 
+## Hermes-Jobs OAuth information
+
+`public/hermes-jobs/` contains the personal Google OAuth app's homepage, privacy
+policy and terms. These are plain HTML/CSS with `noindex, nofollow`, no forms or
+scripts, and no dependency on the portfolio's runtime. The public URLs are:
+
+- https://likhithv.com/hermes-jobs/
+- https://likhithv.com/hermes-jobs/privacy
+- https://likhithv.com/hermes-jobs/terms
+
+Cloudflare Workers Builds deploys `main` from `LikhithV02/likhithv-site`, using
+`wrangler.jsonc` and the `public/` assets directory. A Git push is not proof of
+deployment: verify the live content against the local files afterward.
+
 ## Archive
 
 The previous Astro-based portfolio is archived in `archive/astro-site/` as well as preserved in the git branch `archive/astro-site` and tag `archive-astro-site`.
