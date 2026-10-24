@@ -1,0 +1,11 @@
+:root { --bg:#fbfcfb; --ink:#171d1b; --muted:#5a6460; --teal:#146c5c; --rule:#d5ddd9; --card:#f0f4f2; }
+@media (prefers-color-scheme: dark) { :root { --bg:#101513; --ink:#e6ece9; --muted:#9aa6a0; --teal:#6fd1b9; --rule:#2a3531; --card:#18201d; } }
+* { box-sizing:border-box }
+body { margin:0; background:var(--bg); color:var(--ink); font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif }
+main { max-width:44rem; margin:0 auto; padding:2rem 1.25rem 4rem }
+nav { display:flex; gap:1.25rem; flex-wrap:wrap; padding:1rem 1.25rem; max-width:44rem; margin:0 auto; border-bottom:1px solid var(--rule) }
+nav a { color:var(--muted); text-decoration:none } nav a.brand { color:var(--teal); font-weight:700; margin-right:auto }
+h1 { font-size:2rem; line-height:1.2; margin:1rem 0 .5rem } h2 { font-size:1.25rem; margin:2rem 0 .5rem }
+a { color:var(--teal) } p, li { max-width:40rem } .muted { color:var(--muted) }
+.card { background:var(--card); border:1px solid var(--rule); border-radius:12px; padding:1rem 1.25rem; margin:1.25rem 0 }
+table { border-collapse:collapse; width:100% } td, th { border-bottom:1px solid var(--rule); padding:.5rem .5rem .5rem 0; text-align:left; vertical-align:top }
